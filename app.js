@@ -123,7 +123,7 @@ function renderDraw(draw) {
       <div class="people-assignments">${personLists}</div>
     </article>`;
   };
-  resultElement.innerHTML = `<div class="results-grid">${groupCard('a')}${groupCard('b')}</div>`;
+  resultElement.innerHTML = `<h3 class="displayed-week">Resultado da semana ${draw.week}</h3><div class="results-grid">${groupCard('a')}${groupCard('b')}</div>`;
 }
 
 function renderHistory() {
@@ -136,14 +136,19 @@ function renderHistory() {
   historyElement.innerHTML = [...state.history].reverse().map(draw => {
     const heavy = draw.heavyGroup.toUpperCase();
     const light = (draw.heavyGroup === 'a' ? 'b' : 'a').toUpperCase();
-    return `<article class="history-item"><span class="history-week">Semana ${draw.week}</span><span class="history-meta">Grupo ${heavy}: 12 tarefas (4 por pessoa) · Grupo ${light}: 9 tarefas (3 por pessoa)</span></article>`;
+    const selected = Number(selectedWeek) === Number(draw.week);
+    return `<article class="history-item${selected ? ' selected' : ''}"><span class="history-week">Semana ${draw.week}</span><span class="history-meta">Grupo ${heavy}: 12 tarefas (4 por pessoa) · Grupo ${light}: 9 tarefas (3 por pessoa)</span><button class="history-view" type="button" data-week="${draw.week}" aria-pressed="${selected}">${selected ? 'Exibindo' : 'Ver semana'}</button></article>`;
   }).join('');
 }
 
+let selectedWeek = null;
+
 function showLatestDraw() {
   const latest = state.history.at(-1);
+  selectedWeek = latest?.week ?? null;
   if (latest) renderDraw(latest);
   else resultElement.innerHTML = '<div class="empty-state"><span class="empty-icon" aria-hidden="true">✳</span><strong>Seu próximo sorteio aparece aqui</strong><span>Preencha os grupos e clique em “Sortear tarefas”.</span></div>';
+  renderHistory();
 }
 
 inputs.forEach(input => {
@@ -176,6 +181,7 @@ document.querySelector('#draw-button').addEventListener('click', () => {
   messageElement.classList.remove('visible');
   const draw = makeDraw(teams);
   state.history.push(draw);
+  selectedWeek = draw.week;
   saveState();
   updateWeek();
   renderDraw(draw);
@@ -189,6 +195,17 @@ clearButton.addEventListener('click', () => {
   updateWeek();
   showLatestDraw();
   renderHistory();
+});
+
+historyElement.addEventListener('click', event => {
+  const button = event.target.closest('.history-view');
+  if (!button) return;
+  const draw = state.history.find(item => Number(item.week) === Number(button.dataset.week));
+  if (!draw) return;
+  selectedWeek = draw.week;
+  renderDraw(draw);
+  renderHistory();
+  document.querySelector('#draw-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
 updateWeek();
