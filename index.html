@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6f3">
+  <title>Sorteio do estoque</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#inicio" aria-label="Sorteio do estoque, início">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <span>Rotina do estoque</span>
+      </a>
+      <span class="top-note"><span class="status-dot"></span> Organizado para sua equipe</span>
+    </header>
+
+    <section class="intro" id="inicio">
+      <p class="eyebrow">SORTEIO SEMANAL</p>
+      <h1>Todo mundo sabe<br><span>o que fazer.</span></h1>
+      <p class="intro-copy">Monte os grupos e distribua as 21 tarefas da semana entre as seis pessoas.</p>
+    </section>
+
+    <section class="setup-card card" aria-labelledby="setup-title">
+      <div class="section-heading">
+        <div class="step-number">01</div>
+        <div>
+          <h2 id="setup-title">Monte os grupos</h2>
+          <p>Informe os nomes e escolha quem começa com mais tarefas.</p>
+        </div>
+      </div>
+
+      <div class="teams-grid">
+        <fieldset class="team-panel team-one">
+          <legend><span class="team-symbol">A</span> Grupo A <span class="team-count">3 pessoas</span></legend>
+          <label class="sr-only" for="a1">Pessoa 1 do Grupo A</label>
+          <input id="a1" data-team="a" placeholder="Nome da pessoa 1" maxlength="40" autocomplete="off">
+          <label class="sr-only" for="a2">Pessoa 2 do Grupo A</label>
+          <input id="a2" data-team="a" placeholder="Nome da pessoa 2" maxlength="40" autocomplete="off">
+          <label class="sr-only" for="a3">Pessoa 3 do Grupo A</label>
+          <input id="a3" data-team="a" placeholder="Nome da pessoa 3" maxlength="40" autocomplete="off">
+        </fieldset>
+        <fieldset class="team-panel team-two">
+          <legend><span class="team-symbol">B</span> Grupo B <span class="team-count">3 pessoas</span></legend>
+          <label class="sr-only" for="b1">Pessoa 1 do Grupo B</label>
+          <input id="b1" data-team="b" placeholder="Nome da pessoa 1" maxlength="40" autocomplete="off">
+          <label class="sr-only" for="b2">Pessoa 2 do Grupo B</label>
+          <input id="b2" data-team="b" placeholder="Nome da pessoa 2" maxlength="40" autocomplete="off">
+          <label class="sr-only" for="b3">Pessoa 3 do Grupo B</label>
+          <input id="b3" data-team="b" placeholder="Nome da pessoa 3" maxlength="40" autocomplete="off">
+        </fieldset>
+      </div>
+
+      <div class="start-row">
+        <div>
+          <span class="field-title">Quem começa com mais tarefas?</span>
+          <span class="field-hint">Quem tiver 4 nesta semana terá 3 na próxima, obrigatoriamente.</span>
+        </div>
+        <div class="segmented" role="radiogroup" aria-label="Grupo que começa com mais tarefas">
+          <label><input type="radio" name="firstGroup" value="a" checked><span>Grupo A</span></label>
+          <label><input type="radio" name="firstGroup" value="b"><span>Grupo B</span></label>
+        </div>
+      </div>
+      <p class="form-message" id="form-message" role="alert" aria-live="polite"></p>
+    </section>
+
+    <section class="draw-section" aria-labelledby="draw-title">
+      <div class="section-heading draw-heading">
+        <div class="step-number">02</div>
+        <div>
+          <h2 id="draw-title">Sorteie a semana</h2>
+          <p>Todas as 21 tarefas serão sorteadas entre as seis pessoas, sem repetição.</p>
+        </div>
+      </div>
+      <div class="draw-bar">
+        <div class="week-label"><span class="week-icon" aria-hidden="true">▦</span><span>Semana <strong id="week-number">1</strong></span></div>
+        <button class="draw-button" id="draw-button" type="button"><span aria-hidden="true">⤨</span> Sortear tarefas</button>
+      </div>
+      <div id="results" class="results" aria-live="polite">
+        <div class="empty-state">
+          <span class="empty-icon" aria-hidden="true">✳</span>
+          <strong>Seu próximo sorteio aparece aqui</strong>
+          <span>Preencha os grupos e clique em “Sortear tarefas”.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="history-section" aria-labelledby="history-title">
+      <div class="history-heading">
+        <div>
+          <p class="eyebrow">ACOMPANHAMENTO</p>
+          <h2 id="history-title">Semanas sorteadas</h2>
+        </div>
+        <button class="text-button" id="clear-history" type="button" hidden>Limpar histórico</button>
+      </div>
+      <div id="history" class="history-list">
+        <p class="history-empty">Os sorteios anteriores ficam guardados neste navegador.</p>
+      </div>
+    </section>
+
+    <footer>
+      <span>19 prateleiras</span><i></i><span>Varrer o estoque</span><i></i><span>Passar pano</span>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
