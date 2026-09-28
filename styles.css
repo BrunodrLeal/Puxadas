@@ -2,14 +2,14 @@
 
 :root {
   color-scheme: light;
-  --ink: #1f302b;
-  --muted: #77827d;
-  --green: #286b53;
-  --green-dark: #1c5741;
-  --green-light: #e9f2ec;
-  --border: #e6eae6;
+  --ink: #21331e;
+  --muted: #747e70;
+  --green: #36851f;
+  --green-dark: #286b18;
+  --green-light: #edf6df;
+  --border: #e5eade;
   --paper: #fff;
-  --background: #f5f7f4;
+  --background: #f6f8f2;
   font-family: 'DM Sans', sans-serif;
 }
 
@@ -17,9 +17,9 @@
 body { margin: 0; background: var(--background); color: var(--ink); }
 button, input { font: inherit; }
 .page-shell { width: min(100% - 40px, 850px); margin: 0 auto; }
-.topbar { height: 76px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e7ebe7; }
+.topbar { height: 88px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e5eade; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-weight: 700; letter-spacing: -.02em; }
-.brand-mark { display: grid; place-items: center; width: 31px; height: 31px; border-radius: 10px; color: white; background: var(--green); font-size: 18px; }
+.brand-logo { display: block; width: 72px; height: 72px; object-fit: cover; border-radius: 13px; box-shadow: 0 3px 10px #286b1820; }
 .top-note { display: flex; align-items: center; gap: 8px; color: #748078; font-size: 12px; }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #60a47e; }
 .intro { padding: 48px 0 32px; }
@@ -107,7 +107,8 @@ footer i { width: 3px; height: 3px; border-radius: 50%; background: #aeb8b0; }
 
 @media (max-width: 600px) {
   .page-shell { width: min(100% - 28px, 850px); }
-  .topbar { height: 64px; }
+  .topbar { height: 78px; }
+  .brand-logo { width: 60px; height: 60px; border-radius: 11px; }
   .top-note { font-size: 10px; }
   .intro { padding: 37px 0 26px; }
   .setup-card { padding: 19px 15px; }
