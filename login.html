@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f8f2">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <title>Entrar · Puxadas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <a class="auth-brand" href="/login.html"><img src="assets/mattos-logo.jpg" alt="Logo Mattos"><span>Rotina do estoque</span></a>
+    <section class="auth-card card">
+      <p class="eyebrow">PUXADAS · ACESSO DA EMPRESA</p>
+      <button class="install-button auth-install" type="button" data-install-app hidden>Instalar aplicativo</button>
+      <h1 id="auth-title">Acesse sua conta</h1>
+      <p class="auth-description" id="auth-description">Entre para abrir o sorteio e o histórico da sua empresa.</p>
+
+      <form id="login-form" class="auth-form">
+        <label for="login-email">E-mail</label>
+        <input id="login-email" name="email" type="email" autocomplete="username" required>
+        <label for="login-password">Senha</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+        <button class="draw-button auth-submit" type="submit">Entrar</button>
+      </form>
+
+      <form id="register-form" class="auth-form" hidden>
+        <label for="company-name">Nome da empresa</label>
+        <input id="company-name" name="companyName" maxlength="100" autocomplete="organization" required>
+        <label for="city">Cidade e estado</label>
+        <input id="city" name="city" maxlength="80" placeholder="Ex.: Campinas - SP" autocomplete="address-level2" required>
+        <label for="register-email">E-mail de acesso</label>
+        <input id="register-email" name="email" type="email" autocomplete="email" required>
+        <label for="register-password">Crie uma senha</label>
+        <input id="register-password" name="password" type="password" minlength="8" autocomplete="new-password" required>
+        <span class="field-hint">Use pelo menos 8 caracteres.</span>
+        <button class="draw-button auth-submit" type="submit">Criar conta da empresa</button>
+      </form>
+
+      <p class="auth-message" id="auth-message" role="alert" aria-live="polite"></p>
+      <p class="auth-switch" id="auth-switch">Primeiro acesso? <button type="button" id="show-register">Cadastrar empresa</button></p>
+      <p class="auth-switch" id="login-switch" hidden>Já tem cadastro? <button type="button" id="show-login">Entrar</button></p>
+    </section>
+    <p class="auth-local-note">Protótipo local: os cadastros ficam neste computador.</p>
+  </main>
+  <script src="auth.js"></script>
+  <script src="pwa.js"></script>
+</body>
+</html>

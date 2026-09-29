@@ -3,66 +3,57 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4f6f3">
+  <meta name="theme-color" content="#f6f8f2">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Sorteio do estoque</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/pwa-192.png">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="app-loading">
   <main class="page-shell">
     <header class="topbar">
       <a class="brand" href="#inicio" aria-label="Sorteio do estoque, início">
         <img class="brand-logo" src="assets/mattos-logo.jpg" alt="Logo Mattos">
         <span>Rotina do estoque</span>
       </a>
-      <span class="top-note"><span class="status-dot"></span> Organizado para sua equipe</span>
+      <div class="account-controls">
+        <div class="account-copy"><span id="account-name">Carregando empresa…</span><small id="account-email"></small></div>
+        <button class="install-button" type="button" data-install-app hidden>Instalar</button>
+        <button class="text-button logout-button" id="logout-button" type="button">Sair</button>
+      </div>
     </header>
+    <p class="form-message connection-message" id="connection-message" role="alert" hidden></p>
 
     <section class="intro" id="inicio">
       <p class="eyebrow">SORTEIO SEMANAL</p>
       <h1>Todo mundo sabe<br><span>o que fazer.</span></h1>
-      <p class="intro-copy">Monte os grupos e distribua as 21 tarefas da semana entre as seis pessoas.</p>
+      <p class="intro-copy">Cadastre a equipe e distribua as tarefas sem repetir para cada pessoa antes de completar o ciclo.</p>
     </section>
 
     <section class="setup-card card" aria-labelledby="setup-title">
       <div class="section-heading">
         <div class="step-number">01</div>
         <div>
-          <h2 id="setup-title">Monte os grupos</h2>
-          <p>Informe os nomes e escolha quem começa com mais tarefas.</p>
+          <h2 id="setup-title">Cadastre a equipe</h2>
+          <p>Informe quem está ativo nesta semana. O sistema mantém o ciclo de cada colaborador.</p>
         </div>
       </div>
 
-      <div class="teams-grid">
-        <fieldset class="team-panel team-one">
-          <legend><span class="team-symbol">A</span> Grupo A <span class="team-count">3 pessoas</span></legend>
-          <label class="sr-only" for="a1">Pessoa 1 do Grupo A</label>
-          <input id="a1" data-team="a" placeholder="Nome da pessoa 1" maxlength="40" autocomplete="off">
-          <label class="sr-only" for="a2">Pessoa 2 do Grupo A</label>
-          <input id="a2" data-team="a" placeholder="Nome da pessoa 2" maxlength="40" autocomplete="off">
-          <label class="sr-only" for="a3">Pessoa 3 do Grupo A</label>
-          <input id="a3" data-team="a" placeholder="Nome da pessoa 3" maxlength="40" autocomplete="off">
-        </fieldset>
-        <fieldset class="team-panel team-two">
-          <legend><span class="team-symbol">B</span> Grupo B <span class="team-count">3 pessoas</span></legend>
-          <label class="sr-only" for="b1">Pessoa 1 do Grupo B</label>
-          <input id="b1" data-team="b" placeholder="Nome da pessoa 1" maxlength="40" autocomplete="off">
-          <label class="sr-only" for="b2">Pessoa 2 do Grupo B</label>
-          <input id="b2" data-team="b" placeholder="Nome da pessoa 2" maxlength="40" autocomplete="off">
-          <label class="sr-only" for="b3">Pessoa 3 do Grupo B</label>
-          <input id="b3" data-team="b" placeholder="Nome da pessoa 3" maxlength="40" autocomplete="off">
-        </fieldset>
-      </div>
-
-      <div class="start-row">
-        <div>
-          <span class="field-title">Quem começa com mais tarefas?</span>
-          <span class="field-hint">Quem tiver 4 nesta semana terá 3 na próxima, obrigatoriamente.</span>
+      <form id="configuration-form">
+        <div class="config-grid">
+          <label class="config-field" for="employee-count">Funcionários ativos<input id="employee-count" type="number" min="1" max="500" step="1" value="6" required></label>
+          <label class="config-field" for="shelf-count">Quantidade de prateleiras<input id="shelf-count" type="number" min="0" max="5000" step="1" value="19" required></label>
+          <label class="config-check"><input id="include-sweep" type="checkbox" checked> Incluir “Varrer o estoque”</label>
+          <label class="config-check"><input id="include-mop" type="checkbox" checked> Incluir “Passar pano no estoque”</label>
         </div>
-        <div class="segmented" role="radiogroup" aria-label="Grupo que começa com mais tarefas">
-          <label><input type="radio" name="firstGroup" value="a" checked><span>Grupo A</span></label>
-          <label><input type="radio" name="firstGroup" value="b"><span>Grupo B</span></label>
-        </div>
+        <button class="text-button save-config-button" type="submit">Salvar configuração</button>
+      </form>
+      <div class="employees-grid" id="employees-grid">
       </div>
+      <p class="form-hint">As tarefas extras são alternadas para equilibrar a carga. Ao substituir um funcionário, o novo nome começa um ciclo individual.</p>
       <p class="form-message" id="form-message" role="alert" aria-live="polite"></p>
     </section>
 
@@ -71,7 +62,7 @@
         <div class="step-number">02</div>
         <div>
           <h2 id="draw-title">Sorteie a semana</h2>
-          <p>Todas as 21 tarefas serão sorteadas entre as seis pessoas, sem repetição.</p>
+          <p id="task-summary">As tarefas serão distribuídas entre os funcionários ativos, respeitando o ciclo individual.</p>
         </div>
       </div>
       <div class="draw-bar">
@@ -82,7 +73,7 @@
         <div class="empty-state">
           <span class="empty-icon" aria-hidden="true">✳</span>
           <strong>Seu próximo sorteio aparece aqui</strong>
-          <span>Preencha os grupos e clique em “Sortear tarefas”.</span>
+          <span>Preencha os nomes e clique em “Sortear tarefas”.</span>
         </div>
       </div>
     </section>
@@ -101,9 +92,10 @@
     </section>
 
     <footer>
-      <span>19 prateleiras</span><i></i><span>Varrer o estoque</span><i></i><span>Passar pano</span>
+      <span id="footer-shelf-count">19 prateleiras</span><i></i><span id="footer-cleaning-tasks">Varrer o estoque · Passar pano</span>
     </footer>
   </main>
-  <script src="app.js"></script>
+  <script src="auth-guard.js"></script>
+  <script src="pwa.js"></script>
 </body>
 </html>
